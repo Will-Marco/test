@@ -1,0 +1,19 @@
+name: TestProject CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Connect to server and deploy changes
+      uses: appleboy/ssh-action@master
+      with:
+        script: |
+          cd ~/test/
+          git pull
+          npm i
+          npm run build
+          pm2 restart 0
