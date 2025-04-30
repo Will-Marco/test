@@ -1,23 +1,25 @@
 name: TestProject CD
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Connect to server and deploy changes
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: 22
-        script: |
-          cd ~/test/
-          git pull
-          npm i
-          npm run build
-          pm2 restart 0
+      - name: Connect to server and deploy changes
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: 22
+          script: |
+            cd ~/test/
+            git pull
+            npm install
+            npm run build
+            pm2 restart 0
